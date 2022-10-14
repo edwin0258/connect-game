@@ -3,13 +3,13 @@ package edwin0258;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Polygon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class HexController {
     @FXML
     private HBox startButtons;
 
-    private Piece currentPlayer = Piece.X;
+    private Piece currentPlayer = Piece.O;
     private final int BOARD_SIZE = 11;
     private int spacesUsed = 0;
     private Label infoText;
@@ -59,9 +59,9 @@ public class HexController {
             boardBtn.getStyleClass().add("boardBtn");
         }));
 
-        currentPlayer = Piece.X;
+        currentPlayer = Piece.O;
         spacesUsed = 0;
-        this.infoText.setText("Current Player: X");
+        this.infoText.setText("Current Player: O");
     }
     private void calculateWinner() {
         List<List<String>> boardValues = new ArrayList<>();
@@ -111,10 +111,23 @@ public class HexController {
 
 
     }
+
+    private Polygon createHexagon() {
+        Polygon hexagon = new Polygon();
+        hexagon.getPoints().addAll(200.0, 50.0,
+                400.0, 50.0,
+                450.0, 150.0,
+                400.0, 250.0,
+                200.0, 250.0,
+                150.0, 150.0);
+        Button hexBtn = new Button();
+
+        return hexagon;
+    }
     private void createBoard() {
         this.gp = new GridPane();
         this.infoText = new Label();
-        this.infoText.setText("Current Player: X");
+        this.infoText.setText("Current Player: O");
         gp.setAlignment(Pos.CENTER);
         gp.getStyleClass().add("board");
         for(int i = 0; i < BOARD_SIZE; i++) {
@@ -122,13 +135,16 @@ public class HexController {
             for(int y = 0; y < BOARD_SIZE+i; y++) {
                 Button squareBtn = new Button();
                 squareBtn.setText("");
-                squareBtn.setPrefSize(30.0, 30.0);
-                squareBtn.setMaxSize(30.0, 30.0);
+
                 if(y < i) { // filler buttons for styling
-                   squareBtn.getStyleClass().add("fillerBtn");
-                   hb.getChildren().add(squareBtn);
-                   continue;
+                    squareBtn.setPrefSize(15.0, 35.0);
+                    squareBtn.setMaxSize(15.0, 35.0);
+                    squareBtn.getStyleClass().add("fillerBtn");
+                    hb.getChildren().add(squareBtn);
+                    continue;
                 }
+                squareBtn.setPrefSize(30.0, 35.0);
+                squareBtn.setMaxSize(30.0, 35.0);
                 squareBtn.getStyleClass().add("boardBtn");
                 squareBtn.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -149,6 +165,7 @@ public class HexController {
         GridPane.setRowIndex(this.infoText, 0);
         gridPane.getChildren().add(gp);
         GridPane.setRowIndex(gp, 1);
+        gp.setVgap(-10.0);
         gridPane.setAlignment(Pos.CENTER);
 
         Button resetGame = new Button();
@@ -166,11 +183,29 @@ public class HexController {
 
 
     public void onStartGameClick(ActionEvent e) {
-        System.out.println(e.getTarget());
-
         headerBox.setVisible(false);
         startButtons.setVisible(false);
         createBoard();
-        System.out.println("Hello World");
+    }
+
+    public void onAboutClick() {
+        headerBox.setVisible(false);
+        startButtons.setVisible(false);
+
+        Label aboutGame = new Label();
+        Hyperlink gameInfoLink = new Hyperlink();
+        gameInfoLink.setText("https://en.wikipedia.org/wiki/Hex_(board_game)");
+        gameInfoLink.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                //getHostServices().showDocument(gameInfoLink.getText());
+            }
+        });
+
+        aboutGame.setText("Made by Devin Miller, 10/13/22\nGame Info: ");
+        gridPane.getChildren().add(aboutGame);
+        GridPane.setRowIndex(aboutGame, 0);
+        gridPane.getChildren().add(gameInfoLink);
+        GridPane.setRowIndex(gameInfoLink, 1);
     }
 }

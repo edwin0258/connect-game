@@ -24,22 +24,35 @@
 }
 
 
+
+
 .boardBtn {
     -fx-border-radius: 0;
     -fx-border-color: RGB(170, 160, 120);
     -fx-cursor: hand;
     -fx-background-color: RGB(190, 180, 140);
     -fx-font-weight: bold;
-}
-
-.boardBtnX {
-    -fx-text-fill: red;
-}
-
-.boardBtnO {
-    -fx-text-fill: blue;
+    -fx-shape: "M17.32050807568877 0L34.64101615137754 10L34.64101615137754 30L17.32050807568877 40L0 30L0 10Z";
 }
 
 .boardBtn:hover {
     -fx-background-color: RGB(180, 170, 130);
+}
+
+.boardBtnX {
+    -fx-text-fill: blue;
+    -fx-background-color:rgb(91, 165, 229);
+}
+
+.boardBtnX:hover {
+    -fx-background-color:rgb(71, 145, 209);
+}
+
+.boardBtnO {
+    -fx-text-fill: red;
+    -fx-background-color: rgb(277, 144, 144);
+}
+
+.boardBtnO:hover {
+    -fx-background-color: rgb(247, 124, 124);
 }

@@ -18,7 +18,6 @@
 
     <HBox fx:id="startButtons" GridPane.rowIndex="2" alignment="CENTER" styleClass="buttonBox">
         <Button text="Start Game" styleClass="gameButton" onAction="#onStartGameClick"/>
-        <Button text="Game History" styleClass="gameButton"/>
+        <Button text="About" styleClass="gameButton" onAction="#onAboutClick"/>
     </HBox>
-
 </GridPane>
