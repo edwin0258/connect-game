@@ -1,5 +1,7 @@
 package edwin0258;
 
+import javafx.util.Pair;
+
 import java.util.*;
 import static java.util.Arrays.stream;
 
@@ -73,37 +75,49 @@ public class WinnerCalculator {
         }
         return squares;
     }
-    private boolean isAWinner(List<List<Integer>> startingSquares, Piece p) {
+    private List<List<Integer>> isAWinner(List<List<Integer>> startingSquares, Piece p) {
         int xOrY = (p == Piece.X) ? 0 : 1; // x coord for X piece, y coord for O piece
+        List<List<Integer>> winPath = new ArrayList<>();
         for(List<Integer> square : startingSquares) {
+            winPath.clear();
+            winPath.add(square);
             Integer startCoord = square.get(xOrY);
             List<List<Integer>> neighbors = List.of(square);
             do {
                 Stack<List<Integer>> nextSquares = new Stack<>();
                 for(List<Integer> n : neighbors) {
                     List<List<Integer>> result = findNextSquares(n, p);
-                    if(result != null)
+                    if(result != null) {
+                        winPath.add(n);
                         nextSquares.addAll(result);
+                    }
                 }
                 neighbors = nextSquares.stream().toList();
                 List<List<Integer>> winSquares = neighbors.stream().filter(n -> {
                     return n.get(xOrY) + startCoord == boardWidth - 1;
                 }).toList();
-                if(winSquares.size() > 0) return true;
+                winPath.addAll(winSquares);
+                if(winSquares.size() > 0) return winPath;
             } while(neighbors.size() > 0);
+
         }
-        return false;
+        return null;
     }
-    public Winner computeWinner() {
+    public Pair<Winner, List<List<Integer>>> computeWinner() {
         if(boardWidth == 1 && boardHeight == 1) {
-            if(board.get(0).get(0) == Piece.X) return Winner.PLAYER_X;
-            if(board.get(0).get(0) == Piece.O) return Winner.PLAYER_O;
-            return Winner.NONE;
+            if(board.get(0).get(0) == Piece.X) return new Pair<>(Winner.PLAYER_X, List.of(List.of(0, 0)));
+            if(board.get(0).get(0) == Piece.O) return new Pair<>(Winner.PLAYER_O, List.of(List.of(0, 0)));;
+            return new Pair<>(Winner.NONE, null);
         }
         List<List<Integer>> startingO = findStartingSquares(Piece.O);
         List<List<Integer>> startingX = findStartingSquares(Piece.X);
-        if(isAWinner(startingO, Piece.O)) return Winner.PLAYER_O;
-        if(isAWinner(startingX, Piece.X)) return Winner.PLAYER_X;
-        return Winner.NONE;
+        List<List<Integer>> winPath;
+
+        winPath = isAWinner(startingO, Piece.O);
+        if(winPath != null) return new Pair<>(Winner.PLAYER_O, winPath);
+        winPath = isAWinner(startingX, Piece.X);
+        if(winPath != null) return new Pair<>(Winner.PLAYER_X, winPath);
+
+        return new Pair<>(Winner.NONE, null);
     }
 }

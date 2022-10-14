@@ -4,16 +4,19 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Polygon;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 public class HexController {
 
@@ -29,6 +32,10 @@ public class HexController {
     private int spacesUsed = 0;
     private Label infoText;
     private GridPane gp; // game grid pane
+
+    private final Predicate<Node> filterFillerBtns = (btn) -> {
+        return (((Button) btn).getStyleClass().contains("boardBtn"));
+    };
 
     public void initialize() {
         gridPane.setAlignment(Pos.TOP_CENTER);
@@ -47,9 +54,7 @@ public class HexController {
 
     public void resetBoard() {
         gp.getChildren().forEach(row -> ((HBox) row).getChildren().stream()
-        .filter(btn -> {
-            return (((Button) btn).getStyleClass().contains("boardBtn"));
-        })
+        .filter(filterFillerBtns)
         .forEach(btn -> {
             Button boardBtn = (Button) btn;
             boardBtn.setDisable(false);
@@ -63,13 +68,24 @@ public class HexController {
         spacesUsed = 0;
         this.infoText.setText("Current Player: O");
     }
+
+    private void markWinPath(List<List<Integer>> winPath) {
+        for(List<Integer> squareCoord : winPath) {
+            Integer x = squareCoord.get(1);
+            Integer y = squareCoord.get(0);
+
+            Button btn = (Button) ((HBox) gp.getChildren().get(x)).getChildren().stream()
+                    .filter(filterFillerBtns).toList()
+                    .get(y);
+
+            btn.getStyleClass().add("winBtn");
+        }
+    }
     private void calculateWinner() {
         List<List<String>> boardValues = new ArrayList<>();
         gp.getChildren().forEach(row -> {
             boardValues.add(((HBox) row).getChildren().stream()
-            .filter(btn -> {
-              return (((Button) btn).getStyleClass().contains("boardBtn"));
-            })
+            .filter(filterFillerBtns)
             .map(btn -> {
                 String squareValue = ((Button) btn).getText();
                 if(squareValue.equals("")) return ".";
@@ -78,10 +94,11 @@ public class HexController {
         });
 
         WinnerCalculator wc = new WinnerCalculator(boardValues);
-        Winner winner = wc.computeWinner();
-        if(winner != Winner.NONE) {
-            String winnerText = (winner == Winner.PLAYER_O) ? "O" : "X";
+        Pair<Winner, List<List<Integer>>> winner = wc.computeWinner();
+        if(winner.getKey() != Winner.NONE) {
+            String winnerText = (winner.getKey() == Winner.PLAYER_O) ? "O" : "X";
             this.infoText.setText(String.format("Winner is: %s", winnerText));
+            markWinPath(winner.getValue());
             disableBoard();
         }
 

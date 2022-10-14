@@ -56,3 +56,8 @@
 .boardBtnO:hover {
     -fx-background-color: rgb(247, 124, 124);
 }
+
+.winBtn {
+    -fx-background-color: rgb(124, 255, 127);
+    -fx-text-fill: rgb(64, 195, 67);
+}
