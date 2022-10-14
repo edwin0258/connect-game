@@ -1,0 +1,41 @@
+.root {
+    -fx-background-color: RGB(230, 210, 170);
+}
+
+.headerBox {
+    -fx-alignment: center;
+    -fx-align: center;
+}
+
+.welcomeText {
+    -fx-font-size: 20.0;
+    -fx-text-align: center;
+    -fx-text-alignment: center;
+    -fx-label-padding: 20.0;
+    -fx-alignment: center;
+}
+
+.buttonBox {
+    -fx-spacing: 10.0;
+}
+
+
+.boardBtn {
+    -fx-border-radius: 0;
+    -fx-border-color: RGB(170, 160, 120);
+    -fx-cursor: hand;
+    -fx-background-color: RGB(190, 180, 140);
+    -fx-font-weight: bold;
+}
+
+.boardBtnX {
+    -fx-text-fill: red;
+}
+
+.boardBtnO {
+    -fx-text-fill: blue;
+}
+
+.boardBtn:hover {
+    -fx-background-color: RGB(180, 170, 130);
+}

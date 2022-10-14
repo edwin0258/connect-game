@@ -4,6 +4,6 @@ module com.example.connectgame {
 
     requires org.kordamp.bootstrapfx.core;
 
-    opens com.example.connectgame to javafx.fxml;
-    exports com.example.connectgame;
+    exports edwin0258;
+    opens edwin0258 to javafx.fxml;
 }

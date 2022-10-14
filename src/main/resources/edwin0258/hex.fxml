@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<GridPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="edwin0258.HexController"
+            prefHeight="400.0" prefWidth="600.0"
+            fx:id="gridPane">
+    <HBox fx:id="headerBox" GridPane.rowIndex="1" alignment="CENTER" styleClass="headerBox">
+        <Label text="Welcome to Hex!" styleClass="welcomeText"/>
+    </HBox>
+
+    <HBox fx:id="startButtons" GridPane.rowIndex="2" alignment="CENTER" styleClass="buttonBox">
+        <Button text="Start Game" styleClass="gameButton" onAction="#onStartGameClick"/>
+        <Button text="Game History" styleClass="gameButton"/>
+    </HBox>
+
+</GridPane>
