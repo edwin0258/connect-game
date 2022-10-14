@@ -11,7 +11,7 @@ public class Hex extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Hex.class.getResource("hex.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 200, 200);
+        Scene scene = new Scene(fxmlLoader.load(), 700, 400);
         scene.getStylesheets().add(this.getClass().getResource("hex.css").toExternalForm());
         stage.setTitle("Hex");
         stage.setScene(scene);

@@ -7,14 +7,14 @@ public class WinnerCalculator {
     private List<List<Piece>> board = new ArrayList<>();
     private Map<String, Boolean> checked = new HashMap<>();
     private final Integer boardWidth, boardHeight;
-    public WinnerCalculator(String[] board) {
-        for(String line : board) {
-            this.board.add(stream(line.trim().split(" ")).map(x -> {
+    public WinnerCalculator(List<List<String>> board) {
+        board.forEach(line -> {
+            this.board.add(line.stream().map(x -> {
                 if(x.equals("X")) return Piece.X;
                 if(x.equals("O")) return Piece.O;
                 return Piece.NONE;
             }).toList());
-        }
+        });
         boardWidth = this.board.get(0).size();
         boardHeight = this.board.size();
     }

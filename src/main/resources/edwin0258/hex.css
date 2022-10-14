@@ -19,6 +19,10 @@
     -fx-spacing: 10.0;
 }
 
+.fillerBtn {
+    -fx-background-color: none;
+}
+
 
 .boardBtn {
     -fx-border-radius: 0;
